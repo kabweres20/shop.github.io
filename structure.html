@@ -1,0 +1,2571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kenyatech Devs Shop - POS & Inventory Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Roboto:wght@400;500;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2E3192;
+            --primary-light: #4A4DB8;
+            --primary-dark: #1A1D6E;
+            --secondary: #00AEEF;
+            --secondary-light: #4DC9FF;
+            --accent: #FF6B35;
+            --accent-light: #FF8E5E;
+            --success: #27AE60;
+            --danger: #E74C3C;
+            --warning: #F39C12;
+            --light: #F8F9FA;
+            --dark: #1A1A2E;
+            --gray: #6C757D;
+            --light-gray: #E9ECEF;
+            --border-radius: 16px;
+            --border-radius-sm: 10px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --box-shadow-lg: 0 15px 40px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --gradient-primary: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-accent: linear-gradient(135deg, var(--accent), #FF9A3D);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 5px 20px rgba(46, 49, 146, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            width: 70px;
+            height: 70px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--primary);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--accent);
+        }
+
+        .brand-info h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+        }
+
+        .brand-info .slogan {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .brand-info .slogan span {
+            color: var(--accent-light);
+            font-weight: 600;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .live-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .stat-badge {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-badge:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .stat-badge i {
+            color: var(--accent-light);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px 20px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .user-profile:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .user-info h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .user-info p {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        /* Main Layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
+            padding: 30px 0;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px 25px;
+            box-shadow: var(--box-shadow);
+            height: fit-content;
+            position: sticky;
+            top: 110px;
+        }
+
+        .nav-header {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-gray);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-header i {
+            color: var(--secondary);
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 10px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 18px 20px;
+            border-radius: var(--border-radius-sm);
+            color: var(--gray);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--secondary);
+            transform: translateX(-10px);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            background: linear-gradient(90deg, rgba(46, 49, 146, 0.05), rgba(0, 174, 239, 0.05));
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .nav-link:hover::before {
+            transform: translateX(0);
+        }
+
+        .nav-link.active {
+            background: linear-gradient(90deg, rgba(46, 49, 146, 0.1), rgba(0, 174, 239, 0.1));
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .nav-link.active::before {
+            transform: translateX(0);
+        }
+
+        .nav-link i {
+            font-size: 22px;
+            width: 30px;
+            text-align: center;
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            background: var(--accent);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Dashboard */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .page-subtitle {
+            color: var(--gray);
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--light-gray);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--gradient-primary);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--box-shadow-lg);
+        }
+
+        .stat-card.income::before {
+            background: linear-gradient(90deg, var(--success), #2ECC71);
+        }
+
+        .stat-card.expense::before {
+            background: linear-gradient(90deg, var(--danger), #E74C3C);
+        }
+
+        .stat-card.profit::before {
+            background: var(--gradient-accent);
+        }
+
+        .stat-card.inventory::before {
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+        }
+
+        .stat-content {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+
+        .stat-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .stat-card.income .stat-icon {
+            background: linear-gradient(135deg, var(--success), #2ECC71);
+        }
+
+        .stat-card.expense .stat-icon {
+            background: linear-gradient(135deg, var(--danger), #E74C3C);
+        }
+
+        .stat-card.profit .stat-icon {
+            background: var(--gradient-accent);
+        }
+
+        .stat-card.inventory .stat-icon {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+        }
+
+        .stat-info h3 {
+            font-size: 14px;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 800;
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 5px;
+        }
+
+        .stat-card.income .stat-value {
+            color: var(--success);
+        }
+
+        .stat-card.expense .stat-value {
+            color: var(--danger);
+        }
+
+        .stat-card.profit .stat-value {
+            color: var(--accent);
+        }
+
+        .stat-card.inventory .stat-value {
+            color: var(--primary);
+        }
+
+        .stat-change {
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stat-change.positive {
+            color: var(--success);
+        }
+
+        .stat-change.negative {
+            color: var(--danger);
+        }
+
+        /* POS Section */
+        .pos-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .pos-products {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .pos-cart {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 110px;
+        }
+
+        .pos-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .pos-header h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 24px;
+            color: var(--primary);
+        }
+
+        .search-box {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            border: 2px solid var(--light-gray);
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(0, 174, 239, 0.2);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: var(--border-radius-sm);
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 2px solid var(--light-gray);
+            transition: var(--transition);
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--secondary);
+            box-shadow: 0 10px 25px rgba(0, 174, 239, 0.15);
+        }
+
+        .product-card .product-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 15px;
+            background: linear-gradient(135deg, rgba(46, 49, 146, 0.1), rgba(0, 174, 239, 0.1));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: var(--primary);
+        }
+
+        .product-card h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .product-card .product-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .product-card .product-stock {
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 15px;
+        }
+
+        .product-card .product-stock.low {
+            color: var(--warning);
+            font-weight: 600;
+        }
+
+        .product-card .product-stock.out {
+            color: var(--danger);
+            font-weight: 600;
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .add-to-cart-btn:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+            transform: translateY(-2px);
+        }
+
+        .add-to-cart-btn:disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Cart */
+        .cart-items {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 30px;
+            padding-right: 10px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: var(--light);
+            border-radius: var(--border-radius-sm);
+            margin-bottom: 15px;
+            transition: var(--transition);
+        }
+
+        .cart-item:hover {
+            background: #eef2f7;
+        }
+
+        .cart-item-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(46, 49, 146, 0.1), rgba(0, 174, 239, 0.1));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--primary);
+            margin-right: 15px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-details h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-details .item-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            padding: 5px 15px;
+            border-radius: 50px;
+            border: 1px solid var(--light-gray);
+        }
+
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--light-gray);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .quantity-btn:hover {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .quantity-display {
+            font-weight: 600;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .remove-item {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(231, 76, 60, 0.1);
+            border: none;
+            color: var(--danger);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .remove-item:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        .cart-summary {
+            background: var(--light);
+            border-radius: var(--border-radius-sm);
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .summary-row.total {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            padding-top: 15px;
+            border-top: 2px solid var(--light-gray);
+            margin-top: 15px;
+        }
+
+        .cart-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .cart-btn {
+            flex: 1;
+            padding: 18px;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .cart-btn.clear {
+            background: var(--light-gray);
+            color: var(--dark);
+        }
+
+        .cart-btn.clear:hover {
+            background: var(--gray);
+            color: white;
+        }
+
+        .cart-btn.checkout {
+            background: var(--gradient-accent);
+            color: white;
+        }
+
+        .cart-btn.checkout:hover {
+            background: linear-gradient(135deg, #FF5722, #FF9A3D);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 107, 53, 0.3);
+        }
+
+        /* Profit/Loss Calculator */
+        .calculator-container {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 40px;
+        }
+
+        .calculator-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .calculator-header h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 28px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .calculator-header p {
+            color: var(--gray);
+            font-size: 16px;
+        }
+
+        .calculator-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-label i {
+            color: var(--secondary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 18px 20px;
+            border: 2px solid var(--light-gray);
+            border-radius: var(--border-radius-sm);
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(0, 174, 239, 0.2);
+        }
+
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 20px center;
+            background-size: 20px;
+            padding-right: 50px;
+        }
+
+        .calculator-result {
+            background: linear-gradient(135deg, rgba(46, 49, 146, 0.05), rgba(0, 174, 239, 0.05));
+            border-radius: var(--border-radius);
+            padding: 40px;
+            text-align: center;
+            border: 2px dashed var(--secondary);
+        }
+
+        .result-label {
+            font-size: 18px;
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+
+        .result-value {
+            font-size: 48px;
+            font-weight: 800;
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 20px;
+        }
+
+        .result-value.profit {
+            color: var(--success);
+        }
+
+        .result-value.loss {
+            color: var(--danger);
+        }
+
+        .result-details {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .result-detail {
+            text-align: center;
+        }
+
+        .result-detail h4 {
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .result-detail p {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Tables */
+        .table-container {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        .data-table th {
+            background: linear-gradient(135deg, rgba(46, 49, 146, 0.1), rgba(0, 174, 239, 0.1));
+            padding: 20px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--primary);
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .data-table td {
+            padding: 20px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .data-table tr:hover {
+            background: rgba(46, 49, 146, 0.02);
+        }
+
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-in-stock {
+            background: rgba(39, 174, 96, 0.1);
+            color: var(--success);
+        }
+
+        .status-low-stock {
+            background: rgba(243, 156, 18, 0.1);
+            color: var(--warning);
+        }
+
+        .status-out-of-stock {
+            background: rgba(231, 76, 60, 0.1);
+            color: var(--danger);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .action-btn.edit {
+            background: rgba(52, 152, 219, 0.1);
+            color: #3498db;
+        }
+
+        .action-btn.edit:hover {
+            background: #3498db;
+            color: white;
+        }
+
+        .action-btn.delete {
+            background: rgba(231, 76, 60, 0.1);
+            color: var(--danger);
+        }
+
+        .action-btn.delete:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 20px;
+            margin-bottom: 25px;
+            color: white;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+        }
+
+        .footer-logo {
+            font-size: 32px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .footer-slogan {
+            font-size: 16px;
+            opacity: 0.8;
+            margin-bottom: 25px;
+            line-height: 1.8;
+        }
+
+        .footer-slogan span {
+            color: var(--accent-light);
+            font-weight: 600;
+        }
+
+        .contact-info {
+            list-style: none;
+        }
+
+        .contact-info li {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .contact-info i {
+            color: var(--accent);
+            font-size: 20px;
+            margin-top: 5px;
+        }
+
+        .contact-info a {
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .contact-info a:hover {
+            color: var(--accent-light);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+
+        .copyright a {
+            color: var(--accent-light);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 250px 1fr;
+            }
+            
+            .pos-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .live-stats {
+                justify-content: center;
+            }
+            
+            .search-box {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .calculator-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .cart-actions {
+                flex-direction: column;
+            }
+            
+            .brand-info h1 {
+                font-size: 24px;
+            }
+            
+            .page-title {
+                font-size: 24px;
+            }
+            
+            .stat-value {
+                font-size: 28px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .logo {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+            
+            .stat-card {
+                padding: 25px;
+            }
+            
+            .calculator-container {
+                padding: 25px;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .user-profile {
+                padding: 8px 15px;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .sidebar, .pos-cart, footer, .header-controls {
+                display: none;
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-card:hover {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-container">
+                    <div class="logo">KT</div>
+                    <div class="brand-info">
+                        <h1>Kenyatech Devs Shop</h1>
+                        <div class="slogan"><span>Innovating Tomorrow Today</span></div>
+                    </div>
+                </div>
+                <div class="header-controls">
+                    <div class="live-stats">
+                        <div class="stat-badge">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Sales Today: <strong id="sales-today">12</strong></span>
+                        </div>
+                        <div class="stat-badge">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Revenue: <strong id="today-revenue">KSh 24,580</strong></span>
+                        </div>
+                    </div>
+                    <div class="user-profile">
+                        <div class="user-avatar">KD</div>
+                        <div class="user-info">
+                            <h4>Shop Manager</h4>
+                            <p>Admin Dashboard</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="nav-header">
+                    <i class="fas fa-bars"></i>
+                    Navigation Menu
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#dashboard" class="nav-link active" data-page="dashboard">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#pos" class="nav-link" data-page="pos">
+                            <i class="fas fa-cash-register"></i>
+                            <span>POS System</span>
+                            <span class="nav-badge">NEW</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#inventory" class="nav-link" data-page="inventory">
+                            <i class="fas fa-boxes"></i>
+                            <span>Inventory</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#calculator" class="nav-link" data-page="calculator">
+                            <i class="fas fa-calculator"></i>
+                            <span>Profit/Loss Calculator</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#sales" class="nav-link" data-page="sales">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Sales History</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#purchases" class="nav-link" data-page="purchases">
+                            <i class="fas fa-truck-loading"></i>
+                            <span>Purchase Records</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#reports" class="nav-link" data-page="reports">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Reports</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Dashboard Page -->
+            <div id="dashboard" class="page active">
+                <h1 class="page-title">
+                    <i class="fas fa-tachometer-alt"></i>
+                    Dashboard Overview
+                </h1>
+                <p class="page-subtitle">Real-time insights into your shop performance</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-card income">
+                        <div class="stat-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-info">
+                                <h3>Total Revenue</h3>
+                                <div class="stat-value">KSh 245,800</div>
+                                <div class="stat-change positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>12.5% from last month</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card profit">
+                        <div class="stat-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-info">
+                                <h3>Net Profit</h3>
+                                <div class="stat-value">KSh 89,450</div>
+                                <div class="stat-change positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>8.3% from last month</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card expense">
+                        <div class="stat-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-info">
+                                <h3>Total Expenses</h3>
+                                <div class="stat-value">KSh 45,200</div>
+                                <div class="stat-change negative">
+                                    <i class="fas fa-arrow-down"></i>
+                                    <span>3.2% from last month</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card inventory">
+                        <div class="stat-icon">
+                            <i class="fas fa-boxes"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-info">
+                                <h3>Items in Stock</h3>
+                                <div class="stat-value">156</div>
+                                <div class="stat-change positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>5 new items added</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <h3 style="margin-bottom: 20px; color: var(--primary);">
+                        <i class="fas fa-exclamation-circle"></i>
+                        Low Stock Alert
+                    </h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Item Name</th>
+                                <th>Category</th>
+                                <th>Current Stock</th>
+                                <th>Minimum Required</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Sugar (50kg Sack)</td>
+                                <td>Groceries</td>
+                                <td>3</td>
+                                <td>10</td>
+                                <td><span class="status-badge status-low-stock">Low Stock</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn edit">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Cooking Oil (5L)</td>
+                                <td>Groceries</td>
+                                <td>2</td>
+                                <td>8</td>
+                                <td><span class="status-badge status-low-stock">Low Stock</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn edit">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Washing Detergent (2kg)</td>
+                                <td>Household</td>
+                                <td>0</td>
+                                <td>5</td>
+                                <td><span class="status-badge status-out-of-stock">Out of Stock</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn edit">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- POS Page -->
+            <div id="pos" class="page">
+                <h1 class="page-title">
+                    <i class="fas fa-cash-register"></i>
+                    Point of Sale (POS)
+                </h1>
+                <p class="page-subtitle">Process sales quickly and efficiently</p>
+                
+                <div class="pos-container">
+                    <div class="pos-products">
+                        <div class="pos-header">
+                            <h3>Available Products</h3>
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="product-search" placeholder="Search products...">
+                            </div>
+                        </div>
+                        
+                        <div class="products-grid" id="products-grid">
+                            <!-- Products will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="pos-cart">
+                        <div class="pos-header">
+                            <h3>Shopping Cart</h3>
+                            <div class="cart-badge" id="cart-count">0 Items</div>
+                        </div>
+                        
+                        <div class="cart-items" id="cart-items">
+                            <!-- Cart items will be populated by JavaScript -->
+                            <div class="empty-cart" style="text-align: center; padding: 40px; color: var(--gray);">
+                                <i class="fas fa-shopping-cart" style="font-size: 48px; margin-bottom: 20px; opacity: 0.3;"></i>
+                                <h3>Your cart is empty</h3>
+                                <p>Add products from the left panel</p>
+                            </div>
+                        </div>
+                        
+                        <div class="cart-summary">
+                            <div class="summary-row">
+                                <span>Subtotal:</span>
+                                <span id="cart-subtotal">KSh 0.00</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Tax (16%):</span>
+                                <span id="cart-tax">KSh 0.00</span>
+                            </div>
+                            <div class="summary-row total">
+                                <span>Total:</span>
+                                <span id="cart-total">KSh 0.00</span>
+                            </div>
+                        </div>
+                        
+                        <div class="cart-actions">
+                            <button class="cart-btn clear" id="clear-cart">
+                                <i class="fas fa-trash"></i>
+                                Clear Cart
+                            </button>
+                            <button class="cart-btn checkout" id="checkout-btn">
+                                <i class="fas fa-receipt"></i>
+                                Complete Sale
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inventory Page -->
+            <div id="inventory" class="page">
+                <h1 class="page-title">
+                    <i class="fas fa-boxes"></i>
+                    Inventory Management
+                </h1>
+                <p class="page-subtitle">Manage all your products and stock levels</p>
+                
+                <div class="table-container">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3 style="color: var(--primary);">All Products</h3>
+                        <button class="btn btn-primary" style="background: var(--gradient-primary); color: white; padding: 12px 25px; border: none; border-radius: var(--border-radius-sm); font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-plus"></i>
+                            Add New Product
+                        </button>
+                    </div>
+                    <table class="data-table" id="inventory-table">
+                        <thead>
+                            <tr>
+                                <th>Product ID</th>
+                                <th>Product Name</th>
+                                <th>Category</th>
+                                <th>Unit</th>
+                                <th>Buying Price</th>
+                                <th>Selling Price</th>
+                                <th>Stock</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventory-items-list">
+                            <!-- Inventory items will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Calculator Page -->
+            <div id="calculator" class="page">
+                <h1 class="page-title">
+                    <i class="fas fa-calculator"></i>
+                    Profit/Loss Calculator
+                </h1>
+                <p class="page-subtitle">Calculate profit or loss for any product or transaction</p>
+                
+                <div class="calculator-container">
+                    <div class="calculator-header">
+                        <h3>Calculate Profit or Loss</h3>
+                        <p>Enter buying and selling details to determine your profit margin</p>
+                    </div>
+                    
+                    <div class="calculator-form">
+                        <div>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-box"></i>
+                                    Product Name
+                                </label>
+                                <input type="text" class="form-control" id="calc-product-name" placeholder="Enter product name">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-balance-scale"></i>
+                                    Unit Type
+                                </label>
+                                <select class="form-control form-select" id="calc-unit">
+                                    <option value="">Select Unit</option>
+                                    <option value="kg">Kilograms (kg)</option>
+                                    <option value="g">Grams (g)</option>
+                                    <option value="l">Liters (l)</option>
+                                    <option value="ml">Milliliters (ml)</option>
+                                    <option value="pcs">Pieces (pcs)</option>
+                                    <option value="pack">Packets (pack)</option>
+                                    <option value="sack">Sacks (sack)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-hashtag"></i>
+                                    Quantity Sold
+                                </label>
+                                <input type="number" class="form-control" id="calc-quantity" placeholder="Enter quantity" min="0" step="0.01">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                    Total Buying Price
+                                </label>
+                                <input type="number" class="form-control" id="calc-buying-price" placeholder="Enter total buying price (KSh)" min="0" step="0.01">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-money-check-alt"></i>
+                                    Total Selling Price
+                                </label>
+                                <input type="number" class="form-control" id="calc-selling-price" placeholder="Enter total selling price (KSh)" min="0" step="0.01">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-tags"></i>
+                                    Additional Costs (Optional)
+                                </label>
+                                <input type="number" class="form-control" id="calc-additional-costs" placeholder="Enter additional costs (KSh)" min="0" step="0.01" value="0">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="calculator-result" id="calc-result" style="display: none;">
+                        <div class="result-label" id="result-label">Calculation Result</div>
+                        <div class="result-value" id="result-value">KSh 0.00</div>
+                        <div id="result-type" style="font-size: 20px; font-weight: 600; margin-bottom: 20px;"></div>
+                        
+                        <div class="result-details">
+                            <div class="result-detail">
+                                <h4>Profit/Loss Margin</h4>
+                                <p id="profit-margin">0%</p>
+                            </div>
+                            <div class="result-detail">
+                                <h4>Profit/Loss per Unit</h4>
+                                <p id="profit-per-unit">KSh 0.00</p>
+                            </div>
+                            <div class="result-detail">
+                                <h4>ROI</h4>
+                                <p id="roi-percentage">0%</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 30px;">
+                        <button class="cart-btn checkout" id="calculate-btn" style="width: 300px; margin: 0 auto;">
+                            <i class="fas fa-calculator"></i>
+                            Calculate Profit/Loss
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sales History Page -->
+            <div id="sales" class="page">
+                <h1 class="page-title">
+                    <i class="fas fa-shopping-cart"></i>
+                    Sales History
+                </h1>
+                <p class="page-subtitle">View all completed sales transactions</p>
+                
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Invoice #</th>
+                                <th>Date & Time</th>
+                                <th>Customer</th>
+                                <th>Items</th>
+                                <th>Total Amount</th>
+                                <th>Payment Method</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sales-history">
+                            <!-- Sales history will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Purchase Records Page -->
+            <div id="purchases" class="page">
+                <h1 class="page-title">
+                    <i class="fas fa-truck-loading"></i>
+                    Purchase Records
+                </h1>
+                <p class="page-subtitle">Track all your inventory purchases</p>
+                
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Purchase #</th>
+                                <th>Date</th>
+                                <th>Supplier</th>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Unit Price</th>
+                                <th>Total Cost</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="purchase-records-list">
+                            <!-- Purchase records will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Reports Page -->
+            <div id="reports" class="page">
+                <h1 class="page-title">
+                    <i class="fas fa-chart-bar"></i>
+                    Sales Reports
+                </h1>
+                <p class="page-subtitle">Generate and view detailed sales reports</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-card profit">
+                        <div class="stat-icon">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-info">
+                                <h3>Monthly Sales</h3>
+                                <div class="stat-value">KSh 245,800</div>
+                                <div class="stat-change positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>Compared to last month</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card income">
+                        <div class="stat-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-info">
+                                <h3>Top Selling Product</h3>
+                                <div class="stat-value">Sugar</div>
+                                <div class="stat-change positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>45 units sold this month</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="calculator-container">
+                    <h3 style="margin-bottom: 20px; color: var(--primary);">
+                        <i class="fas fa-filter"></i>
+                        Generate Custom Report
+                    </h3>
+                    <div class="calculator-form">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-calendar"></i>
+                                Start Date
+                            </label>
+                            <input type="date" class="form-control" id="report-start-date">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-calendar"></i>
+                                End Date
+                            </label>
+                            <input type="date" class="form-control" id="report-end-date">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-chart-bar"></i>
+                                Report Type
+                            </label>
+                            <select class="form-control form-select" id="report-type">
+                                <option value="sales">Sales Report</option>
+                                <option value="profit">Profit Report</option>
+                                <option value="inventory">Inventory Report</option>
+                                <option value="expenses">Expenses Report</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 30px;">
+                        <button class="cart-btn checkout" id="generate-report-btn" style="width: 300px; margin: 0 auto;">
+                            <i class="fas fa-file-pdf"></i>
+                            Generate Report
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">Kenyatech Devs</div>
+                    <p class="footer-slogan">
+                        <span>Innovating Tomorrow Today</span><br>
+                        We provide cutting-edge shop management solutions tailored for modern businesses.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <ul class="contact-info">
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <strong>Phone:</strong><br>
+                                <a href="tel:+254748464523">0748 464 523</a>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <strong>Email:</strong><br>
+                                <a href="mailto:dev.kenyatech@gmail.com">dev.kenyatech@gmail.com</a>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <strong>Location:</strong><br>
+                                Nairobi, Kenya
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="contact-info">
+                        <li>
+                            <i class="fas fa-chevron-right"></i>
+                            <a href="#dashboard">Dashboard</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-chevron-right"></i>
+                            <a href="#pos">POS System</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-chevron-right"></i>
+                            <a href="#calculator">Profit Calculator</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-chevron-right"></i>
+                            <a href="#reports">Reports</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2023 Kenyatech Devs Shop. All rights reserved. | 
+                Designed by <a href="mailto:dev.kenyatech@gmail.com">Kenyatech Devs</a> | 
+                <span style="color: var(--accent-light); font-weight: 600;">Innovating Tomorrow Today</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        // Set current date for reports
+        const today = new Date();
+        const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
+        
+        document.getElementById('report-start-date').value = lastMonth.toISOString().split('T')[0];
+        document.getElementById('report-end-date').value = today.toISOString().split('T')[0];
+        
+        // Format currency for Kenyan Shillings
+        function formatKSH(amount) {
+            return 'KSh ' + amount.toLocaleString('en-KE', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+        
+        // Show notification
+        function showNotification(message, type = 'success') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#27AE60' : '#E74C3C'};
+                color: white;
+                padding: 15px 25px;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s;
+                animation-fill-mode: forwards;
+            `;
+            
+            const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+            notification.innerHTML = `
+                <i class="fas ${icon}"></i>
+                <span>${message}</span>
+            `;
+            
+            // Add CSS for animations
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes fadeOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(notification);
+            
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 3000);
+        }
+        
+        // Page navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                document.querySelectorAll('.nav-link').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Add active class to clicked link
+                this.classList.add('active');
+                
+                // Hide all pages
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                
+                // Show selected page
+                const pageId = this.getAttribute('data-page');
+                document.getElementById(pageId).classList.add('active');
+            });
+        });
+        
+        // Sample product data for POS
+        const products = [
+            { id: 1, name: "Sugar (50kg Sack)", category: "Groceries", price: 6000, stock: 15, icon: "fa-cube", unit: "sack" },
+            { id: 2, name: "Rice (25kg Bag)", category: "Groceries", price: 4200, stock: 22, icon: "fa-weight", unit: "bag" },
+            { id: 3, name: "Cooking Oil (5L)", category: "Groceries", price: 2800, stock: 8, icon: "fa-oil-can", unit: "bottle" },
+            { id: 4, name: "Wheat Flour (10kg)", category: "Groceries", price: 2200, stock: 12, icon: "fa-bread-slice", unit: "bag" },
+            { id: 5, name: "Tea Leaves (1kg)", category: "Beverages", price: 1400, stock: 25, icon: "fa-leaf", unit: "packet" },
+            { id: 6, name: "Coffee (500g)", category: "Beverages", price: 2000, stock: 18, icon: "fa-coffee", unit: "packet" },
+            { id: 7, name: "Soap (Bar)", category: "Personal Care", price: 300, stock: 50, icon: "fa-soap", unit: "piece" },
+            { id: 8, name: "Toothpaste (100g)", category: "Personal Care", price: 450, stock: 30, icon: "fa-tooth", unit: "tube" },
+            { id: 9, name: "Detergent (2kg)", category: "Household", price: 1000, stock: 5, icon: "fa-pump-soap", unit: "box" },
+            { id: 10, name: "Bleach (1L)", category: "Household", price: 500, stock: 2, icon: "fa-flask", unit: "bottle" },
+            { id: 11, name: "Milk (500ml)", category: "Dairy", price: 120, stock: 40, icon: "fa-wine-bottle", unit: "bottle" },
+            { id: 12, name: "Bread (Loaf)", category: "Bakery", price: 100, stock: 35, icon: "fa-bread-slice", unit: "loaf" }
+        ];
+        
+        // Sample inventory data
+        const inventoryItems = [
+            { id: 1, name: "Sugar (50kg Sack)", category: "Groceries", unit: "sack", buyingPrice: 4500, sellingPrice: 6000, stock: 15, status: "in-stock" },
+            { id: 2, name: "Rice (25kg Bag)", category: "Groceries", unit: "bag", buyingPrice: 3000, sellingPrice: 4200, stock: 22, status: "in-stock" },
+            { id: 3, name: "Cooking Oil (5L)", category: "Groceries", unit: "bottle", buyingPrice: 2000, sellingPrice: 2800, stock: 8, status: "low-stock" },
+            { id: 4, name: "Wheat Flour (10kg)", category: "Groceries", unit: "bag", buyingPrice: 1500, sellingPrice: 2200, stock: 12, status: "in-stock" },
+            { id: 5, name: "Tea Leaves (1kg)", category: "Beverages", unit: "packet", buyingPrice: 800, sellingPrice: 1400, stock: 25, status: "in-stock" },
+            { id: 6, name: "Coffee (500g)", category: "Beverages", unit: "packet", buyingPrice: 1200, sellingPrice: 2000, stock: 18, status: "in-stock" },
+            { id: 7, name: "Soap (Bar)", category: "Personal Care", unit: "piece", buyingPrice: 150, sellingPrice: 300, stock: 50, status: "in-stock" },
+            { id: 8, name: "Toothpaste (100g)", category: "Personal Care", unit: "tube", buyingPrice: 200, sellingPrice: 450, stock: 30, status: "in-stock" },
+            { id: 9, name: "Detergent (2kg)", category: "Household", unit: "box", buyingPrice: 600, sellingPrice: 1000, stock: 5, status: "low-stock" },
+            { id: 10, name: "Bleach (1L)", category: "Household", unit: "bottle", buyingPrice: 300, sellingPrice: 500, stock: 2, status: "out-of-stock" }
+        ];
+        
+        // Sample sales data
+        const salesHistory = [
+            { invoice: "INV-001", date: "2023-06-15 10:30", customer: "John Doe", items: 3, total: 12400, payment: "Cash", status: "Completed" },
+            { invoice: "INV-002", date: "2023-06-15 11:45", customer: "Jane Smith", items: 5, total: 5600, payment: "M-Pesa", status: "Completed" },
+            { invoice: "INV-003", date: "2023-06-14 14:20", customer: "Mike Johnson", items: 2, total: 8400, payment: "Cash", status: "Completed" },
+            { invoice: "INV-004", date: "2023-06-14 16:10", customer: "Sarah Williams", items: 7, total: 3100, payment: "Card", status: "Completed" },
+            { invoice: "INV-005", date: "2023-06-13 09:15", customer: "Robert Brown", items: 4, total: 11200, payment: "M-Pesa", status: "Completed" }
+        ];
+        
+        // Sample purchase data
+        const purchaseRecords = [
+            { purchase: "PUR-001", date: "2023-06-01", supplier: "Mombasa Sugar Co.", product: "Sugar (50kg Sack)", quantity: 20, unitPrice: 4500, total: 90000, status: "Received" },
+            { purchase: "PUR-002", date: "2023-06-03", supplier: "Lake Basin Millers", product: "Rice (25kg Bag)", quantity: 30, unitPrice: 3000, total: 90000, status: "Received" },
+            { purchase: "PUR-003", date: "2023-06-05", supplier: "Menengai Oil Co.", product: "Cooking Oil (5L)", quantity: 15, unitPrice: 2000, total: 30000, status: "Received" },
+            { purchase: "PUR-004", date: "2023-06-08", supplier: "Kericho Gold Tea", product: "Tea Leaves (1kg)", quantity: 30, unitPrice: 800, total: 24000, status: "Pending" },
+            { purchase: "PUR-005", date: "2023-06-10", supplier: "Nairobi Coffee Exchange", product: "Coffee (500g)", quantity: 25, unitPrice: 1200, total: 30000, status: "Received" }
+        ];
+        
+        // Shopping cart
+        let cart = [];
+        
+        // Function to render products in POS
+        function renderProducts() {
+            const productsGrid = document.getElementById('products-grid');
+            productsGrid.innerHTML = '';
+            
+            products.forEach(product => {
+                const stockClass = product.stock > 10 ? '' : product.stock > 0 ? 'low' : 'out';
+                const stockText = product.stock > 10 ? `${product.stock} in stock` : product.stock > 0 ? `Only ${product.stock} left` : 'Out of stock';
+                const isDisabled = product.stock === 0;
+                
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <div class="product-icon">
+                        <i class="fas ${product.icon}"></i>
+                    </div>
+                    <h4>${product.name}</h4>
+                    <div class="product-price">${formatKSH(product.price)}</div>
+                    <div class="product-stock ${stockClass}">${stockText}</div>
+                    <button class="add-to-cart-btn" data-id="${product.id}" ${isDisabled ? 'disabled' : ''}>
+                        <i class="fas fa-cart-plus"></i>
+                        ${isDisabled ? 'Out of Stock' : 'Add to Cart'}
+                    </button>
+                `;
+                
+                productsGrid.appendChild(productCard);
+            });
+            
+            // Add event listeners to Add to Cart buttons
+            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    addToCart(productId);
+                });
+            });
+        }
+        
+        // Function to add product to cart
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            
+            if (!product) return;
+            
+            // Check if product is already in cart
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                // Check if there's enough stock
+                if (existingItem.quantity < product.stock) {
+                    existingItem.quantity++;
+                    showNotification(`${product.name} quantity increased to ${existingItem.quantity}`);
+                } else {
+                    showNotification(`Not enough stock for ${product.name}. Only ${product.stock} available.`, 'error');
+                    return;
+                }
+            } else {
+                // Add new item to cart
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    quantity: 1,
+                    icon: product.icon
+                });
+                showNotification(`${product.name} added to cart`);
+            }
+            
+            updateCartDisplay();
+        }
+        
+        // Function to update cart display
+        function updateCartDisplay() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartCount = document.getElementById('cart-count');
+            const cartSubtotal = document.getElementById('cart-subtotal');
+            const cartTax = document.getElementById('cart-tax');
+            const cartTotal = document.getElementById('cart-total');
+            
+            // Update cart count
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = `${totalItems} ${totalItems === 1 ? 'Item' : 'Items'}`;
+            
+            // Clear cart items container
+            cartItemsContainer.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div class="empty-cart" style="text-align: center; padding: 40px; color: var(--gray);">
+                        <i class="fas fa-shopping-cart" style="font-size: 48px; margin-bottom: 20px; opacity: 0.3;"></i>
+                        <h3>Your cart is empty</h3>
+                        <p>Add products from the left panel</p>
+                    </div>
+                `;
+                
+                cartSubtotal.textContent = formatKSH(0);
+                cartTax.textContent = formatKSH(0);
+                cartTotal.textContent = formatKSH(0);
+                
+                return;
+            }
+            
+            // Calculate totals
+            let subtotal = 0;
+            
+            // Render cart items
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    <div class="cart-item-icon">
+                        <i class="fas ${item.icon}"></i>
+                    </div>
+                    <div class="cart-item-details">
+                        <h4>${item.name}</h4>
+                        <div class="item-price">${formatKSH(item.price)}</div>
+                    </div>
+                    <div class="cart-item-controls">
+                        <div class="quantity-control">
+                            <button class="quantity-btn decrease" data-id="${item.id}">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <div class="quantity-display">${item.quantity}</div>
+                            <button class="quantity-btn increase" data-id="${item.id}">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <button class="remove-item" data-id="${item.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                
+                cartItemsContainer.appendChild(cartItem);
+            });
+            
+            // Calculate tax (16% VAT)
+            const tax = subtotal * 0.16;
+            const total = subtotal + tax;
+            
+            // Update totals
+            cartSubtotal.textContent = formatKSH(subtotal);
+            cartTax.textContent = formatKSH(tax);
+            cartTotal.textContent = formatKSH(total);
+            
+            // Add event listeners to cart controls
+            document.querySelectorAll('.decrease').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    updateCartItemQuantity(productId, -1);
+                });
+            });
+            
+            document.querySelectorAll('.increase').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    updateCartItemQuantity(productId, 1);
+                });
+            });
+            
+            document.querySelectorAll('.remove-item').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    removeFromCart(productId);
+                });
+            });
+        }
+        
+        // Function to update cart item quantity
+        function updateCartItemQuantity(productId, change) {
+            const itemIndex = cart.findIndex(item => item.id === productId);
+            
+            if (itemIndex === -1) return;
+            
+            const product = products.find(p => p.id === productId);
+            
+            if (!product) return;
+            
+            const newQuantity = cart[itemIndex].quantity + change;
+            
+            if (newQuantity < 1) {
+                removeFromCart(productId);
+                return;
+            }
+            
+            // Check if there's enough stock
+            if (newQuantity > product.stock) {
+                showNotification(`Not enough stock for ${product.name}. Only ${product.stock} available.`, 'error');
+                return;
+            }
+            
+            cart[itemIndex].quantity = newQuantity;
+            updateCartDisplay();
+            showNotification(`${product.name} quantity updated to ${newQuantity}`);
+        }
+        
+        // Function to remove item from cart
+        function removeFromCart(productId) {
+            const itemIndex = cart.findIndex(item => item.id === productId);
+            
+            if (itemIndex === -1) return;
+            
+            const productName = cart[itemIndex].name;
+            cart.splice(itemIndex, 1);
+            updateCartDisplay();
+            showNotification(`${productName} removed from cart`);
+        }
+        
+        // Function to clear cart
+        function clearCart() {
+            if (cart.length === 0) {
+                showNotification('Cart is already empty', 'error');
+                return;
+            }
+            
+            cart = [];
+            updateCartDisplay();
+            showNotification('Cart cleared successfully');
+        }
+        
+        // Function to checkout
+        function checkout() {
+            if (cart.length === 0) {
+                showNotification('Cannot checkout with empty cart', 'error');
+                return;
+            }
+            
+            // Calculate total
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const tax = subtotal * 0.16;
+            const total = subtotal + tax;
+            
+            // Update stock levels in products array
+            cart.forEach(cartItem => {
+                const product = products.find(p => p.id === cartItem.id);
+                if (product) {
+                    product.stock -= cartItem.quantity;
+                }
+            });
+            
+            // Create sales record
+            const now = new Date();
+            const invoiceNumber = `INV-${now.getFullYear()}${(now.getMonth()+1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}-${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`;
+            const dateTime = `${now.toISOString().split('T')[0]} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+            
+            salesHistory.unshift({
+                invoice: invoiceNumber,
+                date: dateTime,
+                customer: "Walk-in Customer",
+                items: cart.reduce((sum, item) => sum + item.quantity, 0),
+                total: total,
+                payment: "Cash",
+                status: "Completed"
+            });
+            
+            // Show success message
+            showNotification(`Sale completed successfully! Invoice: ${invoiceNumber}`, 'success');
+            
+            // Clear cart
+            cart = [];
+            updateCartDisplay();
+            renderProducts();
+            
+            // Update dashboard stats
+            updateDashboardStats();
+        }
+        
+        // Function to populate inventory table
+        function populateInventoryTable() {
+            const tbody = document.getElementById('inventory-items-list');
+            tbody.innerHTML = '';
+            
+            inventoryItems.forEach(item => {
+                const statusText = item.status === 'in-stock' ? 'In Stock' : 
+                                  item.status === 'low-stock' ? 'Low Stock' : 'Out of Stock';
+                const statusClass = `status-${item.status}`;
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>PROD-${item.id.toString().padStart(3, '0')}</td>
+                    <td>${item.name}</td>
+                    <td>${item.category}</td>
+                    <td>${item.unit}</td>
+                    <td>${formatKSH(item.buyingPrice)}</td>
+                    <td>${formatKSH(item.sellingPrice)}</td>
+                    <td>${item.stock}</td>
+                    <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn edit" data-id="${item.id}">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn delete" data-id="${item.id}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
+        // Function to populate sales history
+        function populateSalesHistory() {
+            const tbody = document.getElementById('sales-history');
+            tbody.innerHTML = '';
+            
+            salesHistory.forEach(sale => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${sale.invoice}</td>
+                    <td>${sale.date}</td>
+                    <td>${sale.customer}</td>
+                    <td>${sale.items} items</td>
+                    <td>${formatKSH(sale.total)}</td>
+                    <td>${sale.payment}</td>
+                    <td><span class="status-badge status-in-stock">${sale.status}</span></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
+        // Function to populate purchase records
+        function populatePurchaseRecords() {
+            const tbody = document.getElementById('purchase-records-list');
+            tbody.innerHTML = '';
+            
+            purchaseRecords.forEach(purchase => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${purchase.purchase}</td>
+                    <td>${purchase.date}</td>
+                    <td>${purchase.supplier}</td>
+                    <td>${purchase.product}</td>
+                    <td>${purchase.quantity}</td>
+                    <td>${formatKSH(purchase.unitPrice)}</td>
+                    <td>${formatKSH(purchase.total)}</td>
+                    <td><span class="status-badge ${purchase.status === 'Received' ? 'status-in-stock' : 'status-low-stock'}">${purchase.status}</span></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
+        // Function to update dashboard stats
+        function updateDashboardStats() {
+            // Calculate today's sales
+            const todaySales = salesHistory.filter(sale => {
+                const saleDate = sale.date.split(' ')[0];
+                return saleDate === today.toISOString().split('T')[0];
+            }).length;
+            
+            const todayRevenue = salesHistory.filter(sale => {
+                const saleDate = sale.date.split(' ')[0];
+                return saleDate === today.toISOString().split('T')[0];
+            }).reduce((sum, sale) => sum + sale.total, 0);
+            
+            document.getElementById('sales-today').textContent = todaySales;
+            document.getElementById('today-revenue').textContent = formatKSH(todayRevenue);
+        }
+        
+        // Function to calculate profit/loss
+        function calculateProfitLoss() {
+            const productName = document.getElementById('calc-product-name').value;
+            const unit = document.getElementById('calc-unit').value;
+            const quantity = parseFloat(document.getElementById('calc-quantity').value) || 0;
+            const buyingPrice = parseFloat(document.getElementById('calc-buying-price').value) || 0;
+            const sellingPrice = parseFloat(document.getElementById('calc-selling-price').value) || 0;
+            const additionalCosts = parseFloat(document.getElementById('calc-additional-costs').value) || 0;
+            
+            // Validate inputs
+            if (!productName || !unit || quantity <= 0 || buyingPrice <= 0 || sellingPrice <= 0) {
+                showNotification('Please fill in all required fields with valid values', 'error');
+                return;
+            }
+            
+            // Calculate profit/loss
+            const totalCost = buyingPrice + additionalCosts;
+            const profitLoss = sellingPrice - totalCost;
+            const profitMargin = ((profitLoss / totalCost) * 100).toFixed(2);
+            const profitPerUnit = quantity > 0 ? profitLoss / quantity : 0;
+            const roi = ((profitLoss / totalCost) * 100).toFixed(2);
+            
+            // Display result
+            const resultContainer = document.getElementById('calc-result');
+            const resultValue = document.getElementById('result-value');
+            const resultType = document.getElementById('result-type');
+            const resultLabel = document.getElementById('result-label');
+            const profitMarginEl = document.getElementById('profit-margin');
+            const profitPerUnitEl = document.getElementById('profit-per-unit');
+            const roiPercentage = document.getElementById('roi-percentage');
+            
+            resultContainer.style.display = 'block';
+            
+            if (profitLoss > 0) {
+                resultValue.textContent = formatKSH(profitLoss);
+                resultValue.className = 'result-value profit';
+                resultType.textContent = 'PROFIT';
+                resultType.style.color = 'var(--success)';
+                resultLabel.textContent = `You made a profit on ${productName}`;
+                showNotification(`Profit calculated: ${formatKSH(profitLoss)}`, 'success');
+            } else if (profitLoss < 0) {
+                resultValue.textContent = formatKSH(Math.abs(profitLoss));
+                resultValue.className = 'result-value loss';
+                resultType.textContent = 'LOSS';
+                resultType.style.color = 'var(--danger)';
+                resultLabel.textContent = `You incurred a loss on ${productName}`;
+                showNotification(`Loss calculated: ${formatKSH(Math.abs(profitLoss))}`, 'error');
+            } else {
+                resultValue.textContent = formatKSH(0);
+                resultValue.className = 'result-value';
+                resultType.textContent = 'BREAK EVEN';
+                resultType.style.color = 'var(--warning)';
+                resultLabel.textContent = `You broke even on ${productName}`;
+                showNotification('No profit or loss - you broke even', 'error');
+            }
+            
+            profitMarginEl.textContent = `${profitMargin}%`;
+            profitPerUnitEl.textContent = formatKSH(profitPerUnit);
+            roiPercentage.textContent = `${roi}%`;
+        }
+        
+        // Initialize the application
+        function init() {
+            renderProducts();
+            updateCartDisplay();
+            populateInventoryTable();
+            populateSalesHistory();
+            populatePurchaseRecords();
+            updateDashboardStats();
+            
+            // Event listeners
+            document.getElementById('clear-cart').addEventListener('click', clearCart);
+            document.getElementById('checkout-btn').addEventListener('click', checkout);
+            document.getElementById('calculate-btn').addEventListener('click', calculateProfitLoss);
+            document.getElementById('generate-report-btn').addEventListener('click', function() {
+                showNotification('Report generated successfully!', 'success');
+            });
+            
+            // Product search
+            document.getElementById('product-search').addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                
+                // Filter and render products
+                const filteredProducts = products.filter(product => 
+                    product.name.toLowerCase().includes(searchTerm) || 
+                    product.category.toLowerCase().includes(searchTerm)
+                );
+                
+                const productsGrid = document.getElementById('products-grid');
+                productsGrid.innerHTML = '';
+                
+                filteredProducts.forEach(product => {
+                    const stockClass = product.stock > 10 ? '' : product.stock > 0 ? 'low' : 'out';
+                    const stockText = product.stock > 10 ? `${product.stock} in stock` : product.stock > 0 ? `Only ${product.stock} left` : 'Out of stock';
+                    const isDisabled = product.stock === 0;
+                    
+                    const productCard = document.createElement('div');
+                    productCard.className = 'product-card';
+                    productCard.innerHTML = `
+                        <div class="product-icon">
+                            <i class="fas ${product.icon}"></i>
+                        </div>
+                        <h4>${product.name}</h4>
+                        <div class="product-price">${formatKSH(product.price)}</div>
+                        <div class="product-stock ${stockClass}">${stockText}</div>
+                        <button class="add-to-cart-btn" data-id="${product.id}" ${isDisabled ? 'disabled' : ''}>
+                            <i class="fas fa-cart-plus"></i>
+                            ${isDisabled ? 'Out of Stock' : 'Add to Cart'}
+                        </button>
+                    `;
+                    
+                    productsGrid.appendChild(productCard);
+                });
+                
+                // Re-add event listeners to Add to Cart buttons
+                document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const productId = parseInt(this.getAttribute('data-id'));
+                        addToCart(productId);
+                    });
+                });
+            });
+        }
+        
+        // Initialize when page loads
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
